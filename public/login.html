@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - M.S Bakery</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <main class="login-wrap">
+    <div class="login-card">
+      <h1>Bakery Login</h1>
+      <form id="login-form">
+        <label>Username
+          <input name="username" required autofocus />
+        </label>
+        <label>Password
+          <input name="password" type="password" required />
+        </label>
+        <div class="form-actions">
+          <button type="submit">Sign in</button>
+          <button type="button" id="btn-register">Create account</button>
+        </div>
+      </form>
+      <form id="register-form" class="hidden">
+        <label>Username
+          <input name="username" />
+        </label>
+        <label>Password
+          <input name="password" type="password" />
+        </label>
+        <label>Display Name
+          <input name="displayName" />
+        </label>
+        <div class="form-actions">
+          <button type="submit">Register</button>
+          <button type="button" id="btn-cancel-register">Cancel</button>
+        </div>
+      </form>
+      <div class="note">Tip: use <strong>admin</strong> / <strong>password</strong> to login</div>
+    </div>
+  </main>
+
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    loginForm.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const f = e.target; const u = f.username.value.trim(); const p = f.password.value;
+      try{
+        const res = await fetch('/api/auth/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ username: u, password: p }) });
+        const data = await res.json();
+        if (res.ok && data && data.user){
+          // successful login by server session
+          window.location = '/';
+        } else {
+          alert(data && data.error ? data.error : 'Invalid credentials');
+        }
+      }catch(err){ alert('Login failed'); }
+    });
+
+    document.getElementById('btn-register').addEventListener('click', ()=>{ loginForm.classList.add('hidden'); registerForm.classList.remove('hidden'); });
+    document.getElementById('btn-cancel-register').addEventListener('click', ()=>{ registerForm.classList.add('hidden'); loginForm.classList.remove('hidden'); });
+
+    registerForm.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const f = e.target; const u = f.username.value.trim(); const p = f.password.value; const d = f.displayName.value.trim();
+      if(!u || !p){ alert('username and password required'); return; }
+      try{
+        const res = await fetch('/api/auth/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ username: u, password: p, displayName: d }) });
+        const data = await res.json();
+        if (res.ok && data && data.ok){
+          alert('Account created. You can now login.');
+          registerForm.classList.add('hidden'); loginForm.classList.remove('hidden');
+        } else {
+          alert(data && data.error ? data.error : 'Registration failed');
+        }
+      }catch(err){ alert('Registration failed'); }
+    });
+  </script>
+</body>
+</html>

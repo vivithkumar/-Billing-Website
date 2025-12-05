@@ -1,0 +1,47 @@
+*{box-sizing:border-box;font-family:Segoe UI, Roboto, Arial, sans-serif}
+:root{
+	--panel-width:360px;
+	--accent-a:#de0f81;
+	--accent-b:#7b59b8;
+}
+html,body{height:100%;margin:0}
+:root{
+	/* Default 3D-style background for login page; replace URL with your preferred image */
+	--login-bg: url('https://images.pexels.com/photos/205961/pexels-photo-205961.jpeg?cs=srgb&dl=pexels-igor-ovsyannykov-56123-205961.jpg&fm=jpg');
+}
+body{
+	background-image: var(--login-bg);
+	background-size:cover;background-position:center center;background-repeat:no-repeat;
+	background-attachment:fixed;
+	color:#111;position:relative;overflow:auto;
+}
+/* dark overlay to make panel readable */
+body::before{content:'';position:fixed;inset:0;background:linear-gradient(180deg, rgba(12,40,56,0.55), rgba(18,56,76,0.6));pointer-events:none}
+
+/* If you'd like a stronger blur/3D depth effect, uncomment the following block
+	(requires browser support for backdrop-filter or will fall back gracefully).
+body::after{ content:''; position:fixed; inset:0; backdrop-filter: blur(6px) saturate(120%); -webkit-backdrop-filter: blur(6px) saturate(120%); }
+*/
+
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.login-card{width:var(--panel-width);background:linear-gradient(180deg,#2f6f86,#3f7188);padding:26px;border-radius:14px;box-shadow:0 12px 30px rgba(8,18,30,.35);text-align:left;color:#fff}
+.login-card h1{margin:0 0 16px;font-size:20px;font-weight:700}
+label{display:block;margin:8px 0;font-size:13px}
+input{width:100%;padding:12px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:rgba(255,255,255,0.95);color:#222}
+.form-actions{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.form-actions button{width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));color:#fff;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(68,48,146,0.18)}
+.form-actions button.secondary{background:linear-gradient(135deg,#315392,#7b59b8)}
+.note{font-size:12px;color:rgba(255,255,255,0.85);margin-top:12px;text-align:center}
+
+/* registration form hidden helper */
+.hidden{display:none !important}
+
+/* make inputs and buttons look good on mobile */
+@media (max-width:420px){
+	.login-card{width:92vw;padding:20px;border-radius:12px}
+	input{padding:10px}
+	.form-actions button{padding:12px}
+}
+
+/* small utility for ghost buttons used elsewhere */
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer}

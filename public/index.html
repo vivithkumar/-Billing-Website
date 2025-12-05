@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BAKERY LOGIN</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>BAKERY SHOP</h1>
+    <div class="actions">
+      <button id="btn-report">Monthly Report</button>
+      <button id="btn-manage">Manage Menu</button>
+      <button id="btn-qr-upload" title="Upload QR logo">Upload QR Logo</button>
+      <button id="btn-qr-delete" title="Delete QR logo">Delete QR Logo</button>
+        <span id="user-info" style="margin-left:12px;display:inline-flex;align-items:center;gap:8px"></span>
+    </div>
+  </header>
+
+  <!-- Hidden global file input for QR logo upload (triggered by header button) -->
+  <input id="qr-global-input" type="file" accept="image/*" style="display:none" />
+
+  <main>
+    <section id="menu"></section>
+    <aside id="cart">
+      <h2>Cart</h2>
+      <div id="cart-items"></div>
+      <div class="cart-footer">
+        <div>Total: <strong id="cart-total">0</strong></div>
+        <div class="cart-buttons">
+            <button id="btn-clear">Clear Cart</button>
+            <button id="btn-print">Print Bill</button>
+            <button id="btn-download">Download Invoice (PDF)</button>
+            <button id="btn-pay">Pay Now</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- QR Modal -->
+  <div id="qr-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Scan to Pay</h3>
+      <div style="display:flex;gap:12px;align-items:center;flex-direction:column">
+        <canvas id="qr-canvas" style="display:none"></canvas>
+        <img id="qr-img" src="" alt="QR" style="display:none;max-width:260px;border:1px solid #eee;padding:8px;background:#fff" />
+        <label style="font-size:12px">Upload logo (optional, centered in QR): <input id="qr-logo-input" type="file" accept="image/*" /></label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <img id="qr-logo-preview" src="" alt="Logo preview" style="max-width:80px;display:none;border-radius:6px" />
+          <button id="qr-clear-logo" type="button">Clear logo</button>
+        </div>
+      </div>
+      <button id="qr-close">Close</button>
+    </div>
+  </div>
+
+  <!-- Manage Modal -->
+  <div id="manage-modal" class="modal hidden">
+    <div class="modal-content large">
+      <h3>Manage Menu</h3>
+      <div id="manage-list"></div>
+      <hr />
+      <h4>Add / Edit Item</h4>
+      <form id="manage-form">
+        <input type="hidden" name="id" />
+        <label>Name <input name="name" required /></label>
+        <label>Category <input name="category" required /></label>
+        <label>Price <input name="price" type="number" step="0.01" required /></label>
+        <label>Image URL <input name="image" placeholder="Paste image URL from any website (https://...)" /></label>
+        <div style="font-size:12px;color:#666;margin-top:4px">Tip: you can paste any public image URL (Unsplash, Imgur, CDN). If image fails to load a placeholder appears.</div>
+        <div class="form-buttons">
+          <button type="submit">Save</button>
+          <button type="button" id="manage-cancel">Cancel</button>
+        </div>
+      </form>
+      <button id="manage-close">Close</button>
+    </div>
+  </div>
+
+  <!-- Sales Modal -->
+  <div id="sales-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Monthly Sales Report</h3>
+      <label>Month <input id="sales-month" type="month" /></label>
+      <button id="sales-run">Get Report</button>
+      <button id="sales-download">Download PDF</button>
+      <div id="sales-result"></div>
+      <button id="sales-close">Close</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
